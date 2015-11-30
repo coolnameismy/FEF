@@ -14,7 +14,8 @@ var gulp    = require('gulp'),                 //基础库
     uglify  = require('gulp-uglify'),         //js压缩
     rename = require('gulp-rename'),           //重命名
     concat  = require('gulp-concat'),        //合并文件
-    clean = require('gulp-clean');            //清空文件夹
+    clean = require('gulp-clean'),            //清空文件夹
+    sourcemaps = require('gulp-sourcemaps');  //生成maps文件
     // tinylr = require('tiny-lr'),               //自动刷新
     // server = tinylr(),
     // port = 35729,
@@ -22,11 +23,24 @@ var gulp    = require('gulp'),                 //基础库
 
 
 
-gulp.task('sass', function () {
-  return sass('app/css/base.scss')
-    // .on('error', sass.logError)
-    // .pipe({style:'expact'})
-    .pipe(gulp.dest('dist/css'));
+gulp.task('css', function () {
+  // return sass('app/css/base.scss')
+  //   // .on('error', sass.logError)
+  //   // .pipe({style:'expact'})
+  //   .pipe(gulp.dest('dist/css'));
+
+  var cssSrc = 'app/css/base.scss',
+        cssDst = 'dist/css';
+
+    sass(cssSrc)
+        // gulp.src(cssSrc).pipe(sass())
+        // .pipe(sass({ style: 'expanded'}))
+        .pipe(sourcemaps.write())
+        .pipe(gulp.dest(cssDst))
+        .pipe(rename({ suffix: '.min' }))
+        .pipe(minifycss())
+        .pipe(gulp.dest(cssDst));
+
 });
 
-gulp.task('default', ['sass']);
+gulp.task('default', ['css']);
