@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title> page of handerbars</title>
+	<script src="../bower_components/jquery/jquery.min.js" type="text/javascript"></script>
+	<script src="../bower_components/handlebars/handlebars.js" type="text/javascript" charset="utf-8" ></script>
+
+<script src="../component/Tpl/demoList.js"></script>
+</head>
+<body>
+	
+	<h1>page of handerbars </h1>
+
+
+	<div id="content"></div>
+
+
+	<script id="demoTpl" type="text-x-handlebars-template">
+
+	  {{#each this}}
+        <div>
+         <h1>{{title}}</h1>
+         <p> {{content}}</p>
+        </div> 
+      {{/each}}
+
+	</script>
+
+	<script>
+
+	var data = [
+		{ "title":"aaa","content":"contentaaa"},
+		{ "title":"aaa","content":"contentaaa"},
+		{ "title":"aaa","content":"contentaaa"},
+		{ "title":"aaa","content":"contentaaa"}
+	];
+
+	$(function(){
+		var demoTpl = Handlebars.compile($("#demoTpl").html());
+		$("#content").html(demoTpl(data));
+		// $("#content").html(Handlebars.templates.demoList(data));
+	});
+
+	
+	</script>
+
+
+</body>
+</html>
