@@ -1,4 +1,6 @@
 body {
+  border-radius: 5px;
+  box-sizing: border-box;
   width: 100px;
   heigth: 100px; }
   body wrap {
