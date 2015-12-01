@@ -41,17 +41,14 @@ gulp.task('css', function () {
   //       .pipe(gulp.dest(cssDst)) 
 
     sass(cssSrc)
-        .pipe(sourcemaps.init())
+ 
         
        // gulp.src(cssSrc).pipe(sass())
-        // .pipe(sass({ style: 'expanded'}))
-        // .pipe(sourcemaps.write())
-        // .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
-        // .pipe(gulp.dest(cssDst))
-        // .pipe(rename({ suffix: '.min' }))
-        // .pipe(minifycss())
-       
-        .pipe(sourcemaps.write())
+       // .pipe(sass({ style: 'expanded'})) 
+        .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
+        .pipe(gulp.dest(cssDst))
+        .pipe(rename({ suffix: '.min' }))
+        .pipe(minifycss())
         .pipe(gulp.dest(cssDst)) 
         .pipe(notify({ message: 'css task complete' }));;
 
