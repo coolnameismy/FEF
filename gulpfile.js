@@ -16,8 +16,9 @@ var gulp    = require('gulp'),                //基础库
     uglify  = require('gulp-uglify'),         //js压缩
     rename = require('gulp-rename'),           //重命名
     concat  = require('gulp-concat'),        //合并文件
-    clean = require('gulp-clean');            //清空文件夹
-    // sourcemaps = require('gulp-sourcemaps');  //生成maps文件
+    clean = require('gulp-clean'),            //清空文件夹
+    notify = require('gulp-notify'),
+    sourcemaps = require('gulp-sourcemaps');  //生成maps文件
     // tinylr = require('tiny-lr'),               //自动刷新
     // server = tinylr(),
     // port = 35729,
@@ -34,15 +35,25 @@ gulp.task('css', function () {
   var cssSrc = 'app/css/base.scss',
         cssDst = 'app/dist/css';
 
+  //   gulp.src(cssSrc)
+  //       .pipe(sourcemaps.init())
+  //       .pipe(sourcemaps.write())
+  //       .pipe(gulp.dest(cssDst)) 
+
     sass(cssSrc)
+        .pipe(sourcemaps.init())
+        
        // gulp.src(cssSrc).pipe(sass())
         // .pipe(sass({ style: 'expanded'}))
         // .pipe(sourcemaps.write())
-        .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
-        .pipe(gulp.dest(cssDst))
-        .pipe(rename({ suffix: '.min' }))
-        .pipe(minifycss())
-        .pipe(gulp.dest(cssDst));
+        // .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
+        // .pipe(gulp.dest(cssDst))
+        // .pipe(rename({ suffix: '.min' }))
+        // .pipe(minifycss())
+       
+        .pipe(sourcemaps.write())
+        .pipe(gulp.dest(cssDst)) 
+        .pipe(notify({ message: 'css task complete' }));;
 
 });
 
@@ -67,6 +78,7 @@ gulp.task('js', function () {
 // gulp.task('clean',function(){
 //     // gulp.start('html','css','images','js');
 // });
+
 
 // 监听任务 运行语句 gulp watch
 gulp.task('watch',function(){
