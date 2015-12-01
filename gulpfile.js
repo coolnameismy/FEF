@@ -24,16 +24,20 @@ var gulp    = require('gulp'),                //基础库
     // port = 35729,
     // livereload = require('gulp-livereload');  
 
+var jsSrc = 'app/js/*.js',
+    jsDst ='app/dist/js',
+    cssSrc = 'app/css/*.scss',
+    cssDst = 'app/dist/css';
 
-//css编译任务
+
+//css构建任务
 gulp.task('css', function () {
   // return sass('app/css/base.scss')
   //   // .on('error', sass.logError)
   //   // .pipe({style:'expact'})
   //   .pipe(gulp.dest('dist/css'));
 
-  var cssSrc = 'app/css/base.scss',
-        cssDst = 'app/dist/css';
+
 
   //   gulp.src(cssSrc)
   //       .pipe(sourcemaps.init())
@@ -41,7 +45,6 @@ gulp.task('css', function () {
   //       .pipe(gulp.dest(cssDst)) 
 
     sass(cssSrc)
- 
         
        // gulp.src(cssSrc).pipe(sass())
        // .pipe(sass({ style: 'expanded'})) 
@@ -50,15 +53,13 @@ gulp.task('css', function () {
         .pipe(rename({ suffix: '.min' }))
         .pipe(minifycss())
         .pipe(gulp.dest(cssDst)) 
-        .pipe(notify({ message: 'css task complete' }));
+        .pipe(notify({ message: '<%= file.relative %> task complete' }));
 
 });
 
 
-// js编译任务
+// js构建任务
 gulp.task('js', function () {
-    var jsSrc = 'app/js/*.js',
-        jsDst ='app/dist/js';
 
     gulp.src(jsSrc)
         // .pipe(jshint('.jshintrc'))
@@ -68,14 +69,18 @@ gulp.task('js', function () {
         .pipe(rename({ suffix: '.min' }))
         .pipe(uglify())
         // .pipe(livereload(server))
-        .pipe(gulp.dest(jsDst));
+        .pipe(gulp.dest(jsDst))
+        .pipe(notify({ message: '<%= file.relative %> task complete' }));
+
 });
 
-// // 默认任务 清空图片、样式、js并重建 运行语句 gulp
-// gulp.task('clean',function(){
-//     // gulp.start('html','css','images','js');
-// });
+// clean 任务 如 清空图片、样式
+gulp.task('clean', function() {
+    gulp.src([jsDst,cssDst], {read: false})
+        .pipe(clean())
+        .pipe(notify({ message: '<%= file.relative %> folder has been clean' }));
 
+});
 
 // 监听任务 运行语句 gulp watch
 gulp.task('watch',function(){
@@ -91,8 +96,13 @@ gulp.task('watch',function(){
         // })
 
         // 监听css
-        gulp.watch('app/css/*.scss', function(){
+        gulp.watch(cssSrc, function(){
             gulp.run('css');
+        });
+
+        // 监听js
+        gulp.watch(jsSrc, function(){
+            gulp.run('js');
         });
 
         // 监听images
@@ -100,16 +110,11 @@ gulp.task('watch',function(){
         //     gulp.run('images');
         // });
 
-        // 监听js
-        // gulp.watch('./src/js/*.js', function(){
-        //     gulp.run('js');
-        // });
-
+        
      
 });
  
 
-
 //默认任务
-gulp.task('default', ['css','js']);
+gulp.task('default',['css','js']);
 
