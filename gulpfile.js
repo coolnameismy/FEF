@@ -6,25 +6,25 @@
  */
 
 // 引入 gulp及组件
-var gulp    = require('gulp'),                 //基础库
-    autoprefixer = require('gulp-autoprefixer') //浏览器前缀
-    handlebars = require('gulp-handlebars')
-    imagemin = require('gulp-imagemin'),       //图片压缩
-    sass = require('gulp-ruby-sass'),          //sass
-    minifycss = require('gulp-minify-css'),    //css压缩
+var gulp    = require('gulp'),                //基础库
+    autoprefixer = require('gulp-autoprefixer')  //浏览器前缀
+    handlebars = require('gulp-handlebars') ,
+    imagemin = require('gulp-imagemin') ,     //图片压缩
+    sass = require('gulp-ruby-sass'),        //sass
+    minifycss = require('gulp-minify-css'),   //css压缩
     jshint = require('gulp-jshint'),           //js检查
     uglify  = require('gulp-uglify'),         //js压缩
     rename = require('gulp-rename'),           //重命名
     concat  = require('gulp-concat'),        //合并文件
-    clean = require('gulp-clean'),            //清空文件夹
-    sourcemaps = require('gulp-sourcemaps');  //生成maps文件
+    clean = require('gulp-clean');            //清空文件夹
+    // sourcemaps = require('gulp-sourcemaps');  //生成maps文件
     // tinylr = require('tiny-lr'),               //自动刷新
     // server = tinylr(),
     // port = 35729,
     // livereload = require('gulp-livereload');  
 
 
-
+//css编译任务
 gulp.task('css', function () {
   // return sass('app/css/base.scss')
   //   // .on('error', sass.logError)
@@ -32,7 +32,7 @@ gulp.task('css', function () {
   //   .pipe(gulp.dest('dist/css'));
 
   var cssSrc = 'app/css/base.scss',
-        cssDst = 'dist/css';
+        cssDst = 'app/dist/css';
 
     sass(cssSrc)
        // gulp.src(cssSrc).pipe(sass())
@@ -46,4 +46,61 @@ gulp.task('css', function () {
 
 });
 
+
+// js编译任务
+gulp.task('js', function () {
+    var jsSrc = 'app/js/*.js',
+        jsDst ='app/dist/js';
+
+    gulp.src(jsSrc)
+        .pipe(jshint('.jshintrc'))
+        .pipe(jshint.reporter('default'))
+        .pipe(concat('main.js'))
+        .pipe(gulp.dest(jsDst))
+        .pipe(rename({ suffix: '.min' }))
+        .pipe(uglify())
+        // .pipe(livereload(server))
+        .pipe(gulp.dest(jsDst));
+});
+
+// // 默认任务 清空图片、样式、js并重建 运行语句 gulp
+// gulp.task('clean',function(){
+//     // gulp.start('html','css','images','js');
+// });
+
+// 监听任务 运行语句 gulp watch
+gulp.task('watch',function(){
+
+    // server.listen(port, function(err){
+    //     if (err) {
+    //         return console.log(err);
+    //     }
+
+        // // 监听html
+        // gulp.watch('./src/*.html', function(event){
+        //     gulp.run('html');
+        // })
+
+        // 监听css
+        gulp.watch('app/css/*.scss', function(){
+            gulp.run('css');
+        });
+
+        // 监听images
+        // gulp.watch('./src/images/**/*', function(){
+        //     gulp.run('images');
+        // });
+
+        // 监听js
+        // gulp.watch('./src/js/*.js', function(){
+        //     gulp.run('js');
+        // });
+
+     
+});
+ 
+
+
+//默认任务
 gulp.task('default', ['css']);
+
