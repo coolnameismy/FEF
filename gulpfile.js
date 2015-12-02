@@ -108,9 +108,7 @@ gulp.task('watch',function(){
         // 监听images
         // gulp.watch('./src/images/**/*', function(){
         //     gulp.run('images');
-        // });
-
-        
+        // });     
      
 });
  

@@ -7,12 +7,28 @@
 <meta name="description" content="">
 <meta name="keywords" content="">
 
-
 <link href="dist/css/base.min.css" rel="stylesheet">
-
-
 </head>
+
 <body>
+	<div id="header"></div>
     <h1>hello world !</h1>
+    <div id="footer"></div>
 </body>
+
+<script src="bower_components/jquery/jquery.min.js"></script>
+<script src="bower_components/handlebars/handlebars.js"></script>
+<script src="views/share/header.js"></script>
+<script src="component/Tpl/demoList.js"></script>
+
+<script type="text/javascript">
+	
+	var data = { "name":"liuyanwei","age":"30"} ;
+
+	$(function(){
+		$("#header").html(Handlebars.templates.header(data));
+	});
+
+</script>
+
 </html>
