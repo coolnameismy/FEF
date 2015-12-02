@@ -24,7 +24,7 @@
     "gulp-ruby-sass": "^2.0.6",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-uglify": "^1.5.1",
-    "webpack": "^1.12.9"
+    "handlebars": "^4.0.5"
   },
   "scripts": {
     "js-build": "cd app/ && bower install",
