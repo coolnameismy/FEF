@@ -27,6 +27,32 @@
 
 	</script>
 
+	<script id="demoTpl1" type="text-x-handlebars-template">
+
+	  {{#each this}}
+        <div>
+         <h1>{{this}}</h1>
+        </div> 
+      {{/each}}
+
+	</script>
+
+
+	<script id="demoTpl2" type="text-x-handlebars-template">
+
+	  {{#each this}}
+        {{! 如果age大于25显示红色字体，否则显示绿色字体 }}
+        <div>
+        	{{#if (lg age 25)}}
+         		<h1 style="background-color:red">{{name}}</h1>
+         	{{else}}
+         	   	<h1 style="background-color:green">{{name}}</h1>
+     	   	{{/if}}
+        </div> 
+      {{/each}}
+
+	</script>
+
 	<script>
 
 	var data = [
@@ -36,13 +62,35 @@
 		{ "title":"aaa","content":"<h1>h1</h1>"}
 	];
 
+	var data1 = [
+		 "a","b","c","d","e"
+	];
+
+	var data2 = [
+		{ "name":"liu1","age":30 },
+		{ "name":"liu2","age":20 }
+	];
+
+
 	$(function(){
-		var demoTpl = Handlebars.compile($("#demoTpl").html());
-		$("#content").html(demoTpl(data));
+	   	registerHelper();
+		// var demoTpl = Handlebars.compile($("#demoTpl").html());
+		// $("#content").html(demoTpl(data));
 		// $("#content").html(Handlebars.templates.demoList(data));
+		var demoTpl1 = Handlebars.compile($("#demoTpl2").html());
+		$("#content").html(demoTpl1(data2));
 	});
 
-	
+	// 注册handlebars helper 
+	function registerHelper(){
+			//比较数字大小
+			Handlebars.registerHelper("lg",function(i,stand){
+			if(i>stand) return true
+			return false
+		})
+	}
+
+
 	</script>
 
 
