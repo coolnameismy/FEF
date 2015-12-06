@@ -27,8 +27,9 @@ var gulp    = require('gulp'),                //基础库
 var jsSrc = 'app/js/*.js',
     jsDst ='app/dist/js',
     cssSrc = 'app/css/*.scss',
-    cssDst = 'app/dist/css';
-
+    cssDst = 'app/dist/css',
+    css_components_Src = 'app/component/*/*.css',
+    css_components_Filename = 'allComponent.css';
 
 //css构建任务
 gulp.task('css', function () {
@@ -45,7 +46,6 @@ gulp.task('css', function () {
   //       .pipe(gulp.dest(cssDst)) 
 
     sass(cssSrc)
-        
        // gulp.src(cssSrc).pipe(sass())
        // .pipe(sass({ style: 'expanded'})) 
         .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
@@ -55,6 +55,25 @@ gulp.task('css', function () {
         .pipe(gulp.dest(cssDst)) 
         .pipe(notify({ message: '<%= file.relative %> task complete' }));
 
+});
+
+//css components 组合 构建任务
+gulp.task('css-concat', function () {
+    
+     //先清除合并后的css
+    // gulp.src(jsDst+"/"+css_components_Filename)
+    //     .pipe(clean());
+    gulp.src(css_components_Src)
+        .pipe(concat('allComponent.css'))//合并后的文件名
+        .pipe(gulp.dest(cssDst));
+});
+
+//js components 组合 构建任务
+gulp.task('js-concat', function () {
+
+    gulp.src(jsSrc)
+        .pipe(concat('allComponent.js'))//合并后的文件名
+        .pipe(gulp.dest(jsDst));
 });
 
 
